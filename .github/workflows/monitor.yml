@@ -17,3 +17,9 @@ jobs:
         run: |
           chmod +x monitor.sh
           ./monitor.sh
+
+      - name: Upload log as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-log
+          path: logs/*.log
