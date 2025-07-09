@@ -1,6 +1,18 @@
 #!/bin/bash
 set -e
 
+# === DISK USAGE ALERT LOGIC ===
+echo "Checking for disk usage over 90%..."
+DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
+
+if [ "$DISK_USAGE" -gt 90 ]; then
+  echo "❌ ALERT: Root partition usage is at ${DISK_USAGE}% — threshold exceeded!"
+  exit 1  # Fails the GitHub Actions job
+else
+  echo "✅ Disk usage is OK: ${DISK_USAGE}%"
+fi
+
+# === LOGGING SYS INFO ===
 mkdir -p logs
 LOGFILE="logs/$(date +%F).log"
 
