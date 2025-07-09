@@ -1,6 +1,8 @@
 name: Daily System Monitor
 
 on:
+  schedule:
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -10,9 +12,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Debug: list all files
-        run: ls -la && find .
+      - name: List files (debug)
+        run: ls -la
 
       - name: Run monitor.sh with bash
         run: bash monitor.sh
